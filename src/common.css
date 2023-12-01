@@ -10,8 +10,6 @@ body {
   background-color: #9eaaaa;
   max-height: 100vh;
   margin: 0;
-  /*padding: 30px 50px;
-    max-width: 1440px;*/
 }
 
 img {
@@ -44,12 +42,10 @@ button {
   color: rgb(6, 6, 74);
   border: none;
   transition: background-color 400ms linear;
-  /* border-radius: 50px; */
 }
 .btn-submit {
   background-color: rgba(168, 204, 227, 0.664);
   cursor: none;
-  /* border-radius: 50px; */
 }
 .load-more {
   display: block;
