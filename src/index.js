@@ -46,10 +46,10 @@ async function handleSubmit(event) {
     console.log(currentHits, searchObjects.totalHits);
 
     ///
-    refs.loadMoreBtn.classList.remove('is-hidden');
-    if (searchObjects.hits.length < 40) {
-      refs.loadMoreBtn.classList.add('is-hidden');
-    }
+    // refs.loadMoreBtn.classList.remove('is-hidden');
+    // if (searchObjects.hits.length < 40) {
+    //   refs.loadMoreBtn.classList.add('is-hidden');
+    // }
     ////
 
     if (searchObjects.hits.length === 0) {
@@ -67,6 +67,11 @@ async function handleSubmit(event) {
     let simpleLightBox = new SimpleLightbox('.gallery a', {
       captions: false,
     });
+
+    refs.loadMoreBtn.classList.remove('is-hidden');
+    if (searchObjects.hits.length < 40) {
+      refs.loadMoreBtn.classList.add('is-hidden');
+    }
     refs.btn[0].disabled = true;
     refs.btn[0].classList.add('btn-submit');
 
