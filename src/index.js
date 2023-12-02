@@ -28,7 +28,7 @@ async function handleSubmit(event) {
 
   currentHits = 0;
   page = 1;
-
+  refs.infoForUser.classList.add('is-hidden');
   if (searchWord === '') {
     refs.loadMoreBtn.classList.add('is-hidden');
     refs.infoForUser.classList.add('is-hidden');
