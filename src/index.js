@@ -30,7 +30,7 @@ async function handleSubmit(event) {
   console.log(refs.observerElement);
   currentHits = 0;
   page = 1;
-  refs.loadMoreBtn.classList.remove('is-hidden');
+  // refs.loadMoreBtn.classList.remove('is-hidden');
   if (searchWord === '') {
     refs.loadMoreBtn.classList.add('is-hidden');
     refs.infoForUser.classList.add('is-hidden');
@@ -46,6 +46,7 @@ async function handleSubmit(event) {
     console.log(currentHits, searchObjects.totalHits);
 
     ///
+    refs.loadMoreBtn.classList.remove('is-hidden');
     if (searchObjects.hits.length < 40) {
       refs.loadMoreBtn.classList.add('is-hidden');
     }
