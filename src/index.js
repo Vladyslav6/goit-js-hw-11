@@ -80,34 +80,7 @@ function inputChange() {
   refs.btn[0].disabled = false;
   refs.btn[0].classList.remove('btn-submit');
 }
-/////                  TEST add Scroll.         ////
-///
-//
-////
-// async function handleScroll(entries) {
-//   entries.forEach(async entry => {
-//     if (entry.isIntersecting) {
-//     //   const {
-//     //     scrollTop,
-//     //     scrollHeight,
-//     //     clientHeight
-//     //   } = document.documentElement;
 
-//       //if (scrollTop + clientHeight >= scrollHeight - 2) {
-//
-//         refs.infoForUser.classList.add('is-hidden');
-
-//         handleScrollToBottom();
-//       //}
-
-//
-//     }
-//   });
-// }
-/////                  TEST add Scroll.         ////
-///
-//
-////
 const observer = new IntersectionObserver(handleScrollToBottom, {
   rootMargin: '100px',
 });
