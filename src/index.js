@@ -1,3 +1,5 @@
+//-----------------------SCROLL implemented with the help of a pattern observer-------------------------//
+
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
@@ -64,6 +66,10 @@ async function handleSubmit(event) {
     refs.btn[0].classList.add('btn-submit');
 
     refs.searchForm.addEventListener('input', inputChange);
+
+    if (currentHits === searchObjects.totalHits) {
+      refs.infoForUser.classList.remove('is-hidden');
+    }
   } catch (error) {
     console.error(error);
     Notiflix.Notify.failure('Sorry, there was an error. Please try again.');
@@ -74,6 +80,75 @@ function inputChange() {
   refs.btn[0].disabled = false;
   refs.btn[0].classList.remove('btn-submit');
 }
+/////                  TEST add Scroll.         ////
+///
+//
+////
+// async function handleScroll(entries) {
+//   entries.forEach(async entry => {
+//     if (entry.isIntersecting) {
+//     //   const {
+//     //     scrollTop,
+//     //     scrollHeight,
+//     //     clientHeight
+//     //   } = document.documentElement;
+
+//       //if (scrollTop + clientHeight >= scrollHeight - 2) {
+//
+//         refs.infoForUser.classList.add('is-hidden');
+
+//         handleScrollToBottom();
+//       //}
+
+//
+//     }
+//   });
+// }
+/////                  TEST add Scroll.         ////
+///
+//
+////
+const observer = new IntersectionObserver(handleScrollToBottom, {
+  rootMargin: '100px',
+});
+
+async function handleScrollToBottom(entries) {
+  for (const entry of entries) {
+    try {
+      if (entry.isIntersecting && searchWord !== '') {
+        page += 1;
+        const searchObjects = await fetchResult(searchWord, page);
+        const selectHits = searchObjects.hits.length;
+        currentHits += selectHits;
+
+        refs.infoForUser.classList.add('is-hidden');
+        let hits = searchObjects.hits;
+
+        let simpleLightBox = new SimpleLightbox('.gallery a', {
+          captions: false,
+        });
+
+        simpleLightBox.refresh();
+
+        if (searchObjects.totalHits === currentHits) {
+          console.log(entry.isIntersecting);
+          refs.infoForUser.classList.remove('is-hidden');
+        }
+      }
+    } catch (error) {
+      Notiflix.Notify.failure(
+        'Sorry, there was an error loading more images. Please try again.'
+      );
+    }
+  }
+}
+
+// observer.observe(refs.observerElement);
+
+/////---------BotButton--------//
+///
+///
+///
 
 refs.loadMoreBtn.addEventListener('click', handleClick);
 
