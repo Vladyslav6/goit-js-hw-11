@@ -1,5 +1,3 @@
-//-----------------------SCROLL implemented with the help of a pattern observer-------------------------//
-
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
@@ -14,7 +12,6 @@ const refs = {
   btn: document.getElementsByName('btn-submit'),
 };
 
-//refs.loadMoreBtn.style.display = "none"
 let currentHits = 0;
 let page = 1;
 let searchWord = '';
@@ -26,11 +23,10 @@ async function handleSubmit(event) {
   searchWord = event.currentTarget
     .querySelector('[name="searchQuery"]')
     .value.trim();
-  observer.observe(refs.observerElement);
-  console.log(refs.observerElement);
+
   currentHits = 0;
   page = 1;
-  // refs.loadMoreBtn.classList.remove('is-hidden');
+
   if (searchWord === '') {
     refs.loadMoreBtn.classList.add('is-hidden');
     refs.infoForUser.classList.add('is-hidden');
@@ -45,15 +41,7 @@ async function handleSubmit(event) {
     currentHits += selectHits;
     console.log(currentHits, searchObjects.totalHits);
 
-    ///
-    // refs.loadMoreBtn.classList.remove('is-hidden');
-    // if (searchObjects.hits.length < 40) {
-    //   refs.loadMoreBtn.classList.add('is-hidden');
-    // }
-    ////
-
     if (searchObjects.hits.length === 0) {
-      observer.unobserve(refs.observerElement);
       refs.infoForUser.classList.add('is-hidden');
       refs.gallery.innerHTML = '';
       return Notiflix.Notify.failure(
@@ -76,16 +64,6 @@ async function handleSubmit(event) {
     refs.btn[0].classList.add('btn-submit');
 
     refs.searchForm.addEventListener('input', inputChange);
-
-    if (currentHits < searchObjects.totalHits) {
-      observer.observe(refs.observerElement);
-    }
-
-    if (currentHits === searchObjects.totalHits) {
-      observer.unobserve(refs.observerElement);
-
-      refs.infoForUser.classList.remove('is-hidden');
-    }
   } catch (error) {
     console.error(error);
     Notiflix.Notify.failure('Sorry, there was an error. Please try again.');
@@ -96,77 +74,6 @@ function inputChange() {
   refs.btn[0].disabled = false;
   refs.btn[0].classList.remove('btn-submit');
 }
-/////                  TEST add Scroll.         ////
-///
-//
-////
-// async function handleScroll(entries) {
-//   entries.forEach(async entry => {
-//     if (entry.isIntersecting) {
-//     //   const {
-//     //     scrollTop,
-//     //     scrollHeight,
-//     //     clientHeight
-//     //   } = document.documentElement;
-
-//       //if (scrollTop + clientHeight >= scrollHeight - 2) {
-//
-//         refs.infoForUser.classList.add('is-hidden');
-
-//         handleScrollToBottom();
-//       //}
-
-//
-//     }
-//   });
-// }
-/////                  TEST add Scroll.         ////
-///
-//
-////
-const observer = new IntersectionObserver(handleScrollToBottom, {
-  rootMargin: '100px',
-});
-
-async function handleScrollToBottom(entries) {
-  for (const entry of entries) {
-    try {
-      if (entry.isIntersecting && searchWord !== '') {
-        page += 1;
-        const searchObjects = await fetchResult(searchWord, page);
-        const selectHits = searchObjects.hits.length;
-        currentHits += selectHits;
-        // console.log(searchObjects.totalHits);
-        // console.log(entry.isIntersecting);
-        refs.infoForUser.classList.add('is-hidden');
-        let hits = searchObjects.hits;
-        // refs.gallery.innerHTML += Markup(hits);
-        let simpleLightBox = new SimpleLightbox('.gallery a', {
-          captions: false,
-        });
-
-        simpleLightBox.refresh();
-
-        if (searchObjects.totalHits === currentHits) {
-          console.log(entry.isIntersecting);
-          refs.infoForUser.classList.remove('is-hidden');
-          observer.unobserve(refs.observerElement);
-        }
-      }
-    } catch (error) {
-      Notiflix.Notify.failure(
-        'Sorry, there was an error loading more images. Please try again.'
-      );
-    }
-  }
-}
-
-observer.observe(refs.observerElement);
-
-/////---------BotButton--------//
-///
-///
-///
 
 refs.loadMoreBtn.addEventListener('click', handleClick);
 
