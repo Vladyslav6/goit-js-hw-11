@@ -130,6 +130,7 @@ async function handleClick() {
   refs.loadMoreBtn.classList.add('load-more');
   const searchObjects = await fetchResult(searchWord, page);
   const selectHits = searchObjects.hits.length;
+  console.log(searchObjects.totalHits, currentHits, selectHits);
   currentHits += selectHits;
   let hits = searchObjects.hits;
   refs.gallery.innerHTML += Markup(hits);
@@ -138,7 +139,7 @@ async function handleClick() {
   });
   simpleLightBox.refresh();
 
-  if (searchObjects.totalHits === currentHits) {
+  if (searchObjects.totalHits === currentHits || currentHits > 500) {
     Notiflix.Notify.info(
       "We're sorry, but you've reached the end of search results."
     );
